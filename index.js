@@ -11,6 +11,7 @@ var options = {
     'Authorization': 'Bearer ' + process.env.BEARER
   }
 };
+
 var info;
 function callback(error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -21,8 +22,5 @@ function callback(error, response, body) {
 var results = request(options, callback);
 express()
   .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
   .get ('/yelp', (req, res) => res.json(info))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
