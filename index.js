@@ -3,6 +3,7 @@ const path = require('path')
 var request = require('request');
 require('dotenv').load();
 const PORT = process.env.PORT || 5000
+var app = express()
 
  
 var options = {
@@ -20,7 +21,14 @@ function callback(error, response, body) {
 }
  
 var results = request(options, callback);
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .get ('/yelp', (req, res) => res.json(info))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+app.use(function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next()
+})
+
+app.get ('/yelp', (req, res, next) => res.json(info))
+
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
